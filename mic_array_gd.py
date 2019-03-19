@@ -114,28 +114,33 @@ class MicArray(object):
             return False
         self.stop()
 
-    def spilt (buf)
-        Buff = np.zeros((7, len(buf)//8))
-        for i in range(0,7,1):
-        Buff[i] = buf[i::8]
-    return Buff
-
-    def cost(angle, Buff, self):
-        cost = 0.
-        frqs = np.arange(0.,self.sample_rate/2 + self.df, self.df)
-        w = 2*np.pi* frqs
-        k = w / 343#    k = w / SOUND_SPEED
-        kappa = np.array([math.cos(angle[1])*math.cos(angle[0]), math.cos(angle[1])*math.sin(angle[0]), math.sin(angle[1])])
-        W = np.fft.rfft(Buff,1024)
-        W = W.T.conj()
-        for i in range(0,len(frqs)-1):
-            a = np.exp(1j*k[i])*(np.matmul(kappa,self.GD_matrix))
-            y = abs(np.matmul(W[i],a))
-            cost = cost + y
-        return cost
+#    def spilt (buf)
+#        Buff = np.zeros((7, len(buf)//8))
+#        for i in range(0,7,1):
+#            Buff[i] = buf[i::8]
+#    return Buff
+#
+#    def cost(angle, Buff, self):
+#        cost = 0.
+#        frqs = np.arange(0.,self.sample_rate/2 + self.df, self.df)
+#        w = 2*np.pi* frqs
+#        k = w / 343#    k = w / SOUND_SPEED
+#        kappa = np.array([math.cos(angle[1])*math.cos(angle[0]), math.cos(angle[1])*math.sin(angle[0]), math.sin(angle[1])])
+#        W = np.fft.rfft(Buff,1024)
+#        W = W.T.conj()
+#        for i in range(0,len(frqs)-1):
+#            a = np.exp(1j*k[i])*(np.matmul(kappa,self.GD_matrix))
+#            y = abs(np.matmul(W[i],a))
+#            cost = cost + y
+#        return cost
 
     def get_direction(self, buf):
-        Buff = spilt(buf)
+
+
+        Buff = np.zeros((7, len(buf)//8))
+        for i in range(0,7,1):
+            Buff[i] = buf[i::8]
+
         iterations = 5
         mu = 0.2
         swarms = 22
@@ -153,7 +158,22 @@ class MicArray(object):
         A = np.array([swarm[:,M]])
         best = np.argmax(A)
         C = self.swarm[best,0:2]
-        return   np.array([C])
+
+        def cost(angle, Buff, self):
+            cost = 0.
+            frqs = np.arange(0.,self.sample_rate/2 + self.df, self.df)
+            w = 2*np.pi* frqs
+            k = w / 343#    k = w / SOUND_SPEED
+            kappa = np.array([math.cos(angle[1])*math.cos(angle[0]), math.cos(angle[1])*math.sin(angle[0]), math.sin(angle[1])])
+            W = np.fft.rfft(Buff,1024)
+            W = W.T.conj()
+            for i in range(0,len(frqs)-1):
+                a = np.exp(1j*k[i])*(np.matmul(kappa,self.GD_matrix))
+                y = abs(np.matmul(W[i],a))
+                cost = cost + y
+            return cost
+
+        return np.array([C])
 
 def test_8mic():
     import signal
