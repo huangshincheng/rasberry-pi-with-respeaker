@@ -30,13 +30,7 @@ python get_index.py
 You have to get the respeaker index first, than check wheather it is same as the variable RESPEAKER_INDEX in record.py.
 ```
 python record.py
-	
-	
-	
-
-
-
-
+```
 Make sure you have up-to-date version of pip, setuptools and wheel before install python dependencies
 ```
 python3 -m pip install --upgrade pip setuptools wheel
