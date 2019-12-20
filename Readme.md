@@ -33,3 +33,27 @@ python record.py
 	
 	
 	
+
+
+
+
+Make sure you have up-to-date version of pip, setuptools and wheel before install python dependencies
+```
+python3 -m pip install --upgrade pip setuptools wheel
+```
+then
+```
+sudo apt-get install libpulse-dev
+sudo apt-get install python3-pyaudio
+pip3 install pyaudio
+pip3 install pyusb
+pip3 install webrtcvad
+sudo apt-get install swig
+pip3 install pocketsphinx
+```
+
+
+
+
+
+
